@@ -20,7 +20,16 @@ function createTeddiesCards(teddies) {
 
         const product = document.createElement('div');
         let element = document.getElementById('productsList');
-        element.appendChild(product).classList.add('col-2', 'productCard');
+        element
+            .appendChild(product)
+            .classList.add(
+                'col-6',
+                'col-lg-4',
+                'productCard',
+                'border',
+                'border-success',
+                'mx-auto'
+            );
 
         const newImg = document.createElement('img');
         let image = document.getElementsByClassName('productCard')[i];
