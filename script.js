@@ -18,18 +18,18 @@ function createTeddiesCards(teddies) {
     for (let i = 0; i < teddies.length; i++) {
         // looping on the array length to create as many div as needed
 
-        const product = document.createElement('div');
+        const productLink = document.createElement('a');
         let element = document.getElementById('productsList');
         element
-            .appendChild(product)
+            .appendChild(productLink)
             .classList.add(
                 'col-6',
                 'col-lg-4',
                 'productCard',
-                'border',
-                'border-success',
-                'mx-auto'
+                'mx-auto',
+                'list-group-item'
             );
+        productLink.setAttribute('href', 'product.html');
 
         const newImg = document.createElement('img');
         let image = document.getElementsByClassName('productCard')[i];
