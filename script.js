@@ -49,6 +49,18 @@ function createTeddiesCards(teddies) {
         card.appendChild(cardTitle).classList.add('card-title', 'name');
         cardTitle.innerText = teddies[i].name;
 
+        const addToCartButton = document.createElement('a');
+        card.insertAdjacentElement('beforeend', addToCartButton).setAttribute(
+            'href',
+            'cart.html'
+        );
+        addToCartButton.classList.add('btn', 'mx-auto', 'addToCart');
+
+        const cartIcon = document.createElement('img');
+        let cartBtn = document.getElementsByClassName('addToCart')[i];
+        cartBtn.appendChild(cartIcon).setAttribute('src', './cart_ico32.ico');
+        cartIcon.classList.add('cartIcon');
+
         const price = document.createElement('p');
         let cardP = document.getElementsByClassName('card-body')[i];
         cardP.insertAdjacentElement('beforeend', price).classList.add('price');
@@ -67,3 +79,18 @@ const euro = new Intl.NumberFormat('fr-FR', {
     currency: 'EUR',
     minimumFractionDigits: 2,
 });
+
+async function getThisTeddy(id) {
+    try {
+        let response = await fetch('http://localhost:3000/api/teddies/id');
+        if (response.ok) {
+            let teddy = await response.json();
+            displayTeddyInfos(teddy);
+        } else {
+            console.error('Retour du serveur : ', response.status);
+        }
+    } catch (e) {
+        console.log(e);
+    }
+}
+getThisTeddy(id);
