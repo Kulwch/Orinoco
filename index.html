@@ -11,7 +11,7 @@
         />
         <meta
             name="description"
-            content="Orinoco, le nouveau site e-commerce"
+            content="Orinounours, une plateforme Orinoco"
         />
 
         <link rel="preconnect" href="https://fonts.gstatic.com" />
@@ -26,6 +26,7 @@
             crossorigin="anonymous"
             referrerpolicy="no-referrer"
         />
+
         <link rel="stylesheet" href="css/style.css" />
             
         <title>Orinounours</title>
@@ -36,7 +37,7 @@
         <header class="bg-secondary">
             <div class="container">
                 <div class="row">
-                    <nav class="col navbar navbar-light navbar-expand-md">
+                    <nav class="col navbar navbar-light">
                         <a class="navbar-brand h1" href="index.html">
                             <img
                                 class="pr-1"
@@ -46,35 +47,14 @@
                                 alt="Site logo"
                             />Orinounours</a
                         >
-                        <button
-                            class="navbar-toggler"
-                            type="button"
-                            data-toggle="collapse"
-                            data-target="#navbarContent"
-                        >
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div
-                            id="navbarContent"
-                            class="
-                                collapse
-                                navbar-collapse
-                                justify-content-lg-around
-                            "
-                        >
-                            <ul class="navbar-nav">
+                        <div id="navbarContent" class="justify-content-around">
+                            <ul class="nav justify-content-end">
                                 <li class="nav-item active">
                                     <a class="nav-link" href="index.html"
                                         >Accueil</a
                                     >
                                 </li>
-                                <li class="nav-item">
-                                    <a
-                                        class="nav-link"
-                                        href="index.html#productsList"
-                                        >Produits</a
-                                    >
-                                </li>
+
                                 <li class="nav-item">
                                     <a class="nav-link" href="cart.html"
                                         >Panier</a
@@ -90,14 +70,36 @@
             <h1 class="text-center mt-2 mb-4">
                 Nos boules de tendresse à adopter :
             </h1>
-            <div class="row list-group-horizontal-lg" id="productsList">
+            <p class="text-center">
+                Pour voir les options de personnalisation, cliquer sur le
+                nounours qui vous plaît.
+            </p>
+            <div
+                class="row list-group-horizontal-lg teddyList"
+                id="productsList"
+            >
                 <!-- Products added via DOM modifications after requesting the server all infos-->
             </div>
         </div>
         <footer class="page-footer font-small blue bg-secondary">
-            <div class="footer-copyright text-center py-3">
-                © 2021 Copyright:
-                <a href="">Orinoco</a>
+            <div
+                class="
+                    footer-copyright
+                    text-center
+                    py-3
+                    container-fluid
+                    d-flex
+                    justify-content-evenly
+                "
+            >
+                <a href="#" class="text-decoration-none text-dark"
+                    >Mentions légales</a
+                >
+                <a
+                    href="mailto:orinounours@orinoco.fr"
+                    class="text-decoration-none text-dark"
+                    >Contact</a
+                >
             </div>
         </footer>
 
@@ -129,7 +131,7 @@
             referrerpolicy="no-referrer"
         ></script>
 
-        <script src="script.js"></script>
+        <script src="index.js"></script>
 
           
     </body>
