@@ -4,8 +4,7 @@ async function getTeddies() {
         let response = await fetch('http://localhost:3000/api/teddies');
         if (response.ok) {
             let teddies = await response.json();
-            displayTeddiesCards(teddies);
-            return teddies;
+            displayTeddiesCards(teddies); // Allows to call the function displaying teddies with the infos gathered
         } else {
             console.error('Retour du serveur : ', response.status);
         }
@@ -16,7 +15,7 @@ async function getTeddies() {
 
 // Displaying the json objects gathered within injected HTML
 function displayTeddiesCards(teddies) {
-    const element = document.querySelector('#productsList'); // where the HTML will be injected
+    const element = document.querySelector('#productsList'); // Where the HTML will be injected
 
     for (let i = 0; i < teddies.length; i++) {
         // looping on the array teddies.length to create as many elements as needed
