@@ -34,7 +34,7 @@ function displayThisTeddy(teddy) {
                         }"  alt="Oh le joli nounours !" />
                         <div class="card-body teddyInfos text-dark">
                             <h5 class="card-title name">${teddy.name}</h5>
-                            <button class="btn btn-secondary" onclick="addToCart">Ajouter au panier</button>
+                            <button class="btn btn-secondary" onclick="addToCart()">Ajouter au panier</button>
                             <select name="couleur" class="colorSelect">                                
                                 <label>couleur souhaitée</label>
                             </select>
@@ -55,4 +55,8 @@ function showColors(teddy) {
     }
 }
 
+function addToCart(teddy) {
+    localStorage.setItem('product', teddyId);
+}
+console.log(localStorage);
 getTeddy();
