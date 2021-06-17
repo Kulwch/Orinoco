@@ -1,9 +1,11 @@
+// Gathering all teddies from the API with function getTeddies()
 async function getTeddies() {
     try {
         let response = await fetch('http://localhost:3000/api/teddies');
         if (response.ok) {
             let teddies = await response.json();
             displayTeddiesCards(teddies);
+            return teddies;
         } else {
             console.error('Retour du serveur : ', response.status);
         }
@@ -12,26 +14,24 @@ async function getTeddies() {
     }
 }
 
+// Displaying the json objects gathered within injected HTML
 function displayTeddiesCards(teddies) {
-    const element = document.querySelector('#productsList');
+    const element = document.querySelector('#productsList'); // where the HTML will be injected
 
     for (let i = 0; i < teddies.length; i++) {
-        // looping on the array length to create as many div as needed
+        // looping on the array teddies.length to create as many elements as needed
 
         element.innerHTML += `
                 <div class="col-6 col-lg-4 mx-auto productCard list-group-item">
                     <a
                         href="product.html?${teddies[i]._id}"
-                        class="col-6 col-lg-4 text-decoration-none productLink"
+                        class="text-decoration-none productLink"
                     >
-                        <img class="card-img-top" src="${
+                        <img class="card-img-top img-fluid" src="${
                             teddies[i].imageUrl
-                        }" />
-                        <div class="card-body teddyInfos">
+                        }"  alt="Un joli nounours !" />
+                        <div class="card-body teddyInfos text-dark">
                             <h5 class="card-title name">${teddies[i].name}</h5>
-                            <a class="btn mx-auto addToCart" href="cart.html">
-                                <img src="./cart_ico32.ico" class="cartIcon" />
-                            </a>
                             <p class="price">${
                                 teddies[i].price / 100
                             }.00 &euro;</p>
@@ -45,4 +45,5 @@ function displayTeddiesCards(teddies) {
     }
 }
 
+// Calling function
 getTeddies();
