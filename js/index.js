@@ -1,16 +1,11 @@
 // Gathering all teddies from the API with function getTeddies()
 async function getTeddies() {
-    try {
-        let response = await fetch('http://localhost:3000/api/teddies');
-        if (response.ok) {
-            let teddies = await response.json();
-            displayTeddiesCards(teddies); // Allows to call the function displaying teddies with the infos gathered
-        } else {
-            console.error('Retour du serveur : ', response.status);
-        }
-    } catch (e) {
-        console.log(e);
-    }
+    return fetch('http://localhost:3000/api/teddies')
+        .then((response) => response.json())
+        .then((teddies) => displayTeddiesCards(teddies))
+        .catch((error) => {
+            console.log('Erreur de connexion au serveur', error);
+        });
 }
 
 // Displaying the json objects gathered within injected HTML
@@ -21,7 +16,7 @@ function displayTeddiesCards(teddies) {
         // looping on the array teddies.length to create as many elements as needed
 
         element.innerHTML += `
-                <div class="col-6 col-lg-4 mx-auto productCard list-group-item">
+                <div class="col-12 col-md-6 productCard list-group-item">
                     <a
                         href="product.html?${teddies[i]._id}"
                         class="text-decoration-none productLink"
