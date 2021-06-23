@@ -1,4 +1,4 @@
-console.log(product);
+console.log(localStorage);
 
 async function addToCart(teddy) {
     let selection = document.getElementsByClassName('.colorSelect');
@@ -13,8 +13,9 @@ async function addToCart(teddy) {
     };
     const button = document.querySelectorAll('addBtn');
     button.addEventListener('click', () => {
-        let productInCart = localStorage.getItem(product);
+        let productInCart = JSON.parse(localStorage.getItem(product));
         productInCart.push(product);
         localStorage.setItem('produit', product);
+        console.log(localStorage);
     });
 }
