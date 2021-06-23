@@ -1,21 +1,36 @@
-console.log(localStorage);
+function displayCart() {
+    const elt = document.querySelector('#cart');
+    let products = JSON.parse(localStorage.getItem('product'));
 
-async function addToCart(teddy) {
-    let selection = document.getElementsByClassName('.colorSelect');
-    let option = selection.value;
+    for (let i = 0; i < products.length; i++) {
+        console.log(products.length);
+        console.log(products);
+        elt.innerHTML += `
+                <div class="col-12 col-md-6">
+                    <a
+    href="product.html?${products[i].idProduit}"
+    class="text-decoration-none productLink"
+>
+    <img
+        class="card-img-top img-fluid"
+        src="${products[i].image}"
+        alt="Oh le joli nounours !"
+    />
+    <div class="card-body teddyInfos text-dark">
+        <h5 class="card-title name">
+            ${products[i].nom}
+        </h5>
+        <p class="color">Couleur: ${products[i].option}
+        <p class="price">Prix: 
+            ${products[i].prix}.00 &euro;</p>
+    </div>
+</a>
+                </div>
+            `;
 
-    let product = {
-        nom: teddy.name,
-        idProduit: teddy._id,
-        option: option,
-        quantité: 1,
-        prix: teddy.price / 100,
-    };
-    const button = document.querySelectorAll('addBtn');
-    button.addEventListener('click', () => {
-        let productInCart = JSON.parse(localStorage.getItem(product));
-        productInCart.push(product);
-        localStorage.setItem('produit', product);
-        console.log(localStorage);
-    });
+        console.log(elt);
+        console.log(localStorage.getItem('product'));
+    }
 }
+
+displayCart();

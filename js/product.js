@@ -69,6 +69,7 @@ async function addToCart(teddy) {
                 option: couleur,
                 quantite: 1,
                 prix: teddy.price / 100,
+                image: teddy.imageUrl,
             };
             console.log(product);
 
