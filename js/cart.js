@@ -8,8 +8,11 @@ function displayCart() {
     let prices = [];
     let totalToPay = 0;
 
-    for (let i = 0; i < products.length; i++) {
-        elt.innerHTML += `
+    if (!localStorage.getItem('product')) {
+        elt.innerHTML = 'Votre panier est vide';
+    } else {
+        for (let i = 0; i < products.length; i++) {
+            elt.innerHTML += `
             <div class="col-4 col-md-3 col-lg-2 class="cartContent${[
                 i,
             ]} cartItem">
@@ -34,8 +37,9 @@ function displayCart() {
             </div>
             `;
 
-        prices.push(`${products[i].prix}`);
-        productsId.push(`${products[i].idProduit}`);
+            prices.push(`${products[i].prix}`);
+            productsId.push(`${products[i].idProduit}`);
+        }
     }
 
     totalToPay = prices.map(function (x) {
@@ -60,8 +64,8 @@ function displayCart() {
 
                 localStorage.removeItem('product', thisItem);
 
-                let thisItem = document.querySelector(`.${carContent[i]}`);
-                thisItem.remove;
+                let thisItem = document.querySelector(`.carContent${[i]}`);
+                thisItem.remove();
                 window.location.reload();
             });
         console.log(carContent[i]);
@@ -70,33 +74,31 @@ function displayCart() {
 
 displayCart();
 
+let btnClear = document.querySelector('#clearCart');
+btnClear.onclick = clearCart();
+
 function clearCart() {
-    document.getElementById('clearCart').onclick =
-        ('click',
-        (e) => {
-            e.preventDefault();
-            if (localStorage.getItem('product')) {
-                localStorage.clear();
-                window.location.reload();
-            } else {
-                alert('Le panier est déjà vide !');
-            }
-        });
+    btnClear.addEventListener('click', (e) => {
+        if (localStorage.getItem('product') != 'true') {
+            localStorage.clear();
+            window.location.reload();
+        }
+    });
 }
 
 function order() {
     let firstName = document.getElementById('firstName').value;
-    let name = document.getElementById('name').value;
-    let adress = document.getElementById('adress').value;
+    let lastName = document.getElementById('lastName').value;
+    let address = document.getElementById('address').value;
     let city = document.getElementById('city').value;
-    let mail = document.getElementById('mail').value;
+    let email = document.getElementById('email').value;
 
     let contact = {
         firstName: firstName,
-        name: name,
-        adress: adress,
+        lastName: lastName,
+        address: address,
         city: city,
-        email: mail,
+        email: email,
     };
 
     let products = [];
@@ -110,15 +112,12 @@ function order() {
         ('click',
         (e) => {
             e.preventDefault();
-            const orderThisCart = fetch(
-                'http://localhost:3000/api/teddies/order',
-                {
-                    method: 'POST',
-                    body: JSON.stringify(orderContent),
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            );
+            return fetch('http://localhost:3000/api/teddies/order', {
+                method: 'POST',
+                body: JSON.stringify(orderContent),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
         });
 }
