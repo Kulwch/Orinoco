@@ -14,3 +14,18 @@ Html is set with Bootstrap.
 
 (Further information will be added)
 
+1° Local server
+
+- clone this repo: https://github.com/OpenClassrooms-Student-Center/JWDP5.git
+- in the terminal, enter 'npm install'
+- then enter 'node server'
+
+The local server is then launched on port: 3000
+
+2° Testing the MVP
+
+- Either you go on the GitHub Page while node server is active
+
+- Or you can also open index.html in your local browser
+
+You can now test the features.
