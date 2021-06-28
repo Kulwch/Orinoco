@@ -70,6 +70,7 @@ async function addToCart(teddy) {
                 quantite: 1,
                 prix: teddy.price / 100,
                 image: teddy.imageUrl,
+                tagKey: teddy._id + couleur,
             };
             console.log(product);
 
