@@ -48,6 +48,8 @@ function displayCart() {
 
     total = totalToPay.reduce(sum);
 
+    localStorage.setItem('total', total);
+
     let totalPrice = document.querySelector('.totalPrice');
     totalPrice.innerHTML = `${total},00 &euro;`;
 
