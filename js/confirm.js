@@ -1,6 +1,6 @@
-let products = JSON.parse(localStorage.getItem('products'));
-
-document.querySelector('.commandRecap').innerHTML = `
+const products = JSON.parse(localStorage.getItem('products'));
+// Creating the order summary
+document.querySelector('.orderSummary').innerHTML = `
     <h2 class="h4">Merci pour votre commande ! Voici le récapitulatif : </h2>
     <br/>
     <br/>
@@ -15,7 +15,8 @@ document.querySelector('.commandRecap').innerHTML = `
         'total'
     )},00 &euro; </strong></p>`;
 
-let content = document.querySelector('.content');
+// Looping on products to create each product a card to be displayed
+const content = document.querySelector('.content');
 for (let i = 0; i < products.length; i++) {
     content.innerHTML += `
 <div class="card col col-md-4">

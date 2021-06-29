@@ -38,6 +38,7 @@ async function displayThisTeddy(teddy) {
                     </div>
                 </div>
             `;
+    // Display the available customization options (colors)
     async function showColors(teddy) {
         console.log(teddy);
         for (i = 0; i < teddy.colors.length; i++) {
@@ -52,8 +53,7 @@ async function displayThisTeddy(teddy) {
 }
 getTeddy();
 
-// Display the available customization options (colors)
-
+// Adding selected product to cart on click
 async function addToCart(teddy) {
     document.getElementById('addCart').onclick =
         ('click',

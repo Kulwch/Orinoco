@@ -37,6 +37,7 @@ function displayCart() {
             prices.push(`${products[i].price}`);
             productsId.push(`${products[i].productId}`);
 
+            // Removal of an item when clicking the btnRemove button
             btnRemove = document.querySelectorAll('.btnRemove');
             for (let j = 0; j < btnRemove.length; j++) {
                 btnRemove[j].addEventListener('click', (e) => {
@@ -69,12 +70,12 @@ function displayCart() {
 
     localStorage.setItem('total', total);
 
-    let totalPrice = document.querySelector('.totalPrice');
+    const totalPrice = document.querySelector('.totalPrice');
     totalPrice.innerHTML = `${total},00 &euro;`;
 
-    let btnClear = document.querySelector('#clearCart');
+    // Clearing the cart from everything in it when clicking btnClear
+    const btnClear = document.querySelector('#clearCart');
     btnClear.onclick = clearCart();
-
     function clearCart() {
         btnClear.addEventListener('click', (e) => {
             e.preventDefault();
@@ -88,9 +89,9 @@ function displayCart() {
 
 displayCart();
 
-let btnOrder = document.getElementById('orderCart');
+// Ordering the cart's content when clicking the btnOrder
+const btnOrder = document.getElementById('orderCart');
 btnOrder.onclick = order();
-
 function order() {
     btnOrder.addEventListener('click', (e) => {
         e.preventDefault();
@@ -99,7 +100,7 @@ function order() {
         let address = document.getElementById('address').value;
         let city = document.getElementById('city').value;
         let email = document.getElementById('email').value;
-        let contact = {
+        const contact = {
             firstName: firstName,
             lastName: lastName,
             address: address,
@@ -109,8 +110,7 @@ function order() {
         let products = productsId;
         orderContent = { contact, products };
 
-        console.log(orderContent);
-
+        // Making a POST request to the API then fetching the orderId, finally redirecting to confirm.html
         return fetch('http://localhost:3000/api/teddies/order', {
             method: 'POST',
             body: JSON.stringify(orderContent),
