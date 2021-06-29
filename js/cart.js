@@ -4,37 +4,56 @@ let orderContent = {};
 // Displaying the cart with its content
 function displayCart() {
     const elt = document.querySelector('#cart');
-    let products = JSON.parse(localStorage.getItem('product'));
+    let products = JSON.parse(localStorage.getItem('products'));
     let total = 0;
     let prices = [];
     let totalToPay = 0;
 
     //if cart is empty, displaying a message
-    if (!localStorage.getItem('product')) {
+    if (!localStorage.getItem('products')) {
         elt.innerHTML = 'Votre panier est vide';
     } else {
         // When cart contains items, creating elements to display it
         for (let i = 0; i < products.length; i++) {
             elt.innerHTML += `
-            <div class="col-4 col-md-3 col-lg-2 class="cartContent${products[i]} cartItem">
-                <a href="product.html?${products[i].idProduit}" class="text-decoration-none productLink">
+            <div class="col-4 col-md-3 col-lg-2 class="cartItem${products[i].productId}">
+                <a href="product.html?${products[i].productId}" class="text-decoration-none productLink">
                     <img class="card-img-top img-fluid" src="${products[i].image}" alt="Oh le joli nounours !"/>
                     <div class="card-body teddyInfos text-dark">
-                        <h5 class="card-title name">${products[i].nom}</h5>
+                        <h5 class="card-title name">${products[i].name}</h5>
                         <p class="color">Couleur: ${products[i].option}</p>
-                        <p class="quantity">Quantité: ${products[i].quantite}</p> 
-                        <p class="price">Prix: ${products[i].prix}.00 &euro;</p>
+                        <p class="quantity">Quantité: ${products[i].quantity}</p> 
+                        <p class="price">Prix: ${products[i].price}.00 &euro;</p>
+                        <button class="btn btn-warning btnRemove">Enlever cet article</button>
                     </div>
                 </a>
-                <div class="">
-                    <button class="btn btn-warning btnRemove">Enlever cet article</button>
-                </div>                
+                
+                    
+                               
             </div>
             `;
 
             // The prices are pushed in an array, and so are the ids
-            prices.push(`${products[i].prix}`);
-            productsId.push(`${products[i].idProduit}`);
+            prices.push(`${products[i].price}`);
+            productsId.push(`${products[i].productId}`);
+
+            btnRemove = document.querySelectorAll('.btnRemove');
+            for (let j = 0; j < btnRemove.length; j++) {
+                btnRemove[j].addEventListener('click', (e) => {
+                    e.preventDefault();
+
+                    let itemToRemove = `${products[i].productId}`;
+                    console.log(itemToRemove);
+
+                    products = products.filter(
+                        (element) => element.productId !== itemToRemove
+                    );
+                    localStorage.setItem('products', JSON.stringify(products));
+                    document;
+
+                    window.location.href = 'cart.html';
+                });
+            }
         }
     }
 
@@ -52,8 +71,6 @@ function displayCart() {
 
     let totalPrice = document.querySelector('.totalPrice');
     totalPrice.innerHTML = `${total},00 &euro;`;
-
-    console.log(total);
 
     let btnClear = document.querySelector('#clearCart');
     btnClear.onclick = clearCart();

@@ -63,28 +63,28 @@ async function addToCart(teddy) {
             const selection = document.querySelector('#colorSelect');
             const couleur = selection.value;
 
-            let product = {
-                nom: teddy.name,
-                idProduit: teddy._id,
+            let products = {
+                name: teddy.name,
+                productId: teddy._id,
                 option: couleur,
-                quantite: 1,
-                prix: teddy.price / 100,
+                quantity: 1,
+                price: teddy.price / 100,
                 image: teddy.imageUrl,
                 tagKey: teddy._id + couleur,
             };
-            console.log(product);
+            console.log(products);
 
-            let productInCart = JSON.parse(localStorage.getItem('product'));
+            let productInCart = JSON.parse(localStorage.getItem('products'));
             console.log(localStorage);
 
             if (productInCart) {
-                productInCart.push(product);
-                localStorage.setItem('product', JSON.stringify(productInCart));
+                productInCart.push(products);
+                localStorage.setItem('products', JSON.stringify(productInCart));
                 console.log(productInCart);
             } else {
                 productInCart = [];
-                productInCart.push(product);
-                localStorage.setItem('product', JSON.stringify(productInCart));
+                productInCart.push(products);
+                localStorage.setItem('products', JSON.stringify(productInCart));
                 console.log(productInCart);
             }
         });
