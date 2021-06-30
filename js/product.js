@@ -29,7 +29,7 @@ async function displayThisTeddy(teddy) {
                         <div class="card-body teddyInfos text-dark">
                             <h5 class="card-title name">${teddy.name}</h5>
                             <button id="addCart" onclick="addToCart()" class="btn btn-secondary addBtn" >Ajouter au panier</button>
-                            <select name="couleur" id="colorSelect">                                
+                            <select name="color" id="colorSelect">                                
                                 <label>couleur souhaitée</label>
                             </select>
                             <p class="price">${teddy.price / 100}.00 &euro;</p>
@@ -61,20 +61,22 @@ async function addToCart(teddy) {
             e.preventDefault();
 
             const selection = document.querySelector('#colorSelect');
-            const couleur = selection.value;
+            const color = selection.value;
+            let howMany = 1;
 
             let products = {
                 name: teddy.name,
                 productId: teddy._id,
-                option: couleur,
-                quantity: 1,
+                option: color,
+                quantity: howMany,
                 price: teddy.price / 100,
                 image: teddy.imageUrl,
-                tagKey: teddy._id + couleur,
+                tagKey: teddy._id + color,
             };
             console.log(products);
 
             let productInCart = JSON.parse(localStorage.getItem('products'));
+            console.log(productInCart);
             console.log(localStorage);
 
             if (productInCart) {

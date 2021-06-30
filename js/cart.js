@@ -7,7 +7,6 @@ function displayCart() {
     let products = JSON.parse(localStorage.getItem('products'));
     let total = 0;
     let prices = [];
-    let totalToPay = 0;
 
     //if cart is empty, displaying a message
     if (!localStorage.getItem('products')) {
@@ -26,10 +25,7 @@ function displayCart() {
                         <p class="price">Prix: ${products[i].price}.00 &euro;</p>
                         <button class="btn btn-warning btnRemove">Enlever cet article</button>
                     </div>
-                </a>
-                
-                    
-                               
+                </a>                               
             </div>
             `;
 
@@ -38,38 +34,33 @@ function displayCart() {
             productsId.push(`${products[i].productId}`);
 
             // Removal of an item when clicking the btnRemove button
+
             btnRemove = document.querySelectorAll('.btnRemove');
             for (let j = 0; j < btnRemove.length; j++) {
                 btnRemove[j].addEventListener('click', (e) => {
                     e.preventDefault();
 
                     let itemToRemove = `${products[i].productId}`;
-                    console.log(itemToRemove);
 
                     products = products.filter(
                         (element) => element.productId !== itemToRemove
                     );
                     localStorage.setItem('products', JSON.stringify(products));
-                    document;
-
                     window.location.href = 'cart.html';
                 });
             }
         }
     }
-
-    totalToPay = prices.map(function (x) {
-        return parseInt(x, 10);
-    });
-
-    function sum(total, num) {
-        return total + num;
-    }
-
-    total = totalToPay.reduce(sum);
-
+    // Total is calculated with a map.reduce of prices
+    total = prices
+        .map((x) => {
+            return parseInt(x, 10);
+        })
+        .reduce(function (total, num) {
+            return total + num;
+        });
+    // Then the total is stored in localStorage
     localStorage.setItem('total', total);
-
     const totalPrice = document.querySelector('.totalPrice');
     totalPrice.innerHTML = `${total},00 &euro;`;
 
@@ -95,11 +86,15 @@ btnOrder.onclick = order();
 function order() {
     btnOrder.addEventListener('click', (e) => {
         e.preventDefault();
+
+        //Defining the variables
         let firstName = document.getElementById('firstName').value;
         let lastName = document.getElementById('lastName').value;
         let address = document.getElementById('address').value;
         let city = document.getElementById('city').value;
         let email = document.getElementById('email').value;
+
+        //Creating the contact object
         const contact = {
             firstName: firstName,
             lastName: lastName,

@@ -1,7 +1,8 @@
-const products = JSON.parse(localStorage.getItem('products'));
-// Creating the order summary
-document.querySelector('.orderSummary').innerHTML = `
-    <h2 class="h4">Merci pour votre commande ! Voici le récapitulatif : </h2>
+function displayOrder() {
+    const products = JSON.parse(localStorage.getItem('products'));
+    // Creating the order summary
+    document.querySelector('.orderSummary').innerHTML = `
+    <h2 class="h4 text-center">Merci pour votre commande ! Voici le récapitulatif : </h2>
     <br/>
     <br/>
     <h3 class="text-center h5"><strong>Numéro de commande :</strong> ${localStorage.getItem(
@@ -15,10 +16,10 @@ document.querySelector('.orderSummary').innerHTML = `
         'total'
     )},00 &euro; </strong></p>`;
 
-// Looping on products to create each product a card to be displayed
-const content = document.querySelector('.content');
-for (let i = 0; i < products.length; i++) {
-    content.innerHTML += `
+    // Looping on products to create each product a card to be displayed
+    const content = document.querySelector('.content');
+    for (let i = 0; i < products.length; i++) {
+        content.innerHTML += `
 <div class="card col col-md-4">
     <img
         class="card-img-top"
@@ -31,4 +32,6 @@ for (let i = 0; i < products.length; i++) {
         <p class="quantity">Quantité: ${products[i].quantity}</p>
     </div>
 </div>`;
+    }
 }
+displayOrder();
