@@ -1,5 +1,4 @@
 let productsId = [];
-let orderContent = {};
 
 // Displaying the cart with its content
 function displayCart() {
@@ -34,19 +33,18 @@ function displayCart() {
             productsId.push(`${products[i].productId}`);
 
             // Removal of an item when clicking the btnRemove button
-
             btnRemove = document.querySelectorAll('.btnRemove');
+
             for (let j = 0; j < btnRemove.length; j++) {
                 btnRemove[j].addEventListener('click', (e) => {
                     e.preventDefault();
-
                     let itemToRemove = `${products[i].productId}`;
-
+                    // Using filter to separate the item to remove from the rest of the array
                     products = products.filter(
                         (element) => element.productId !== itemToRemove
                     );
                     localStorage.setItem('products', JSON.stringify(products));
-                    window.location.href = 'cart.html';
+                    window.location.reload();
                 });
             }
         }
@@ -59,7 +57,8 @@ function displayCart() {
         .reduce(function (total, num) {
             return total + num;
         });
-    // Then the total is stored in localStorage
+
+    // Then total is stored in localStorage and displayed
     localStorage.setItem('total', total);
     const totalPrice = document.querySelector('.totalPrice');
     totalPrice.innerHTML = `${total},00 &euro;`;
@@ -67,6 +66,7 @@ function displayCart() {
     // Clearing the cart from everything in it when clicking btnClear
     const btnClear = document.querySelector('#clearCart');
     btnClear.onclick = clearCart();
+
     function clearCart() {
         btnClear.addEventListener('click', (e) => {
             e.preventDefault();
@@ -83,16 +83,17 @@ displayCart();
 // Ordering the cart's content when clicking the btnOrder
 const btnOrder = document.getElementById('orderCart');
 btnOrder.onclick = order();
+
 function order() {
     btnOrder.addEventListener('click', (e) => {
         e.preventDefault();
 
         //Defining the variables
-        let firstName = document.getElementById('firstName').value;
-        let lastName = document.getElementById('lastName').value;
-        let address = document.getElementById('address').value;
-        let city = document.getElementById('city').value;
-        let email = document.getElementById('email').value;
+        const firstName = document.getElementById('firstName').value;
+        const lastName = document.getElementById('lastName').value;
+        const address = document.getElementById('address').value;
+        const city = document.getElementById('city').value;
+        const email = document.getElementById('email').value;
 
         //Creating the contact object
         const contact = {
@@ -103,6 +104,9 @@ function order() {
             email: email,
         };
         let products = productsId;
+
+        // Creating the object which will be the body of the request
+        let orderContent = {};
         orderContent = { contact, products };
 
         // Making a POST request to the API then fetching the orderId, finally redirecting to confirm.html
@@ -115,6 +119,9 @@ function order() {
         })
             .then((response) => response.json())
             .then((res) => localStorage.setItem('orderId', res.orderId))
-            .then(() => (window.location = 'confirm.html'));
+            .then(() => (window.location = 'confirm.html'))
+            .catch((error) => {
+                console.log('Erreur de connexion au serveur', error);
+            });
     });
 }

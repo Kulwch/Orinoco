@@ -1,9 +1,8 @@
 // Getting the _id from the url parameters
 const getUrlId = window.location.search;
-console.log(getUrlId);
 
-const teddyId = getUrlId.slice(1); // Removing the ? from id with the .slice() method
-console.log(teddyId);
+// Removing the ? from id with .slice()
+const teddyId = getUrlId.slice(1);
 
 // Gathering the teddy from the API with function getTeddy()
 async function getTeddy() {
@@ -40,12 +39,9 @@ async function displayThisTeddy(teddy) {
             `;
     // Display the available customization options (colors)
     async function showColors(teddy) {
-        console.log(teddy);
         for (i = 0; i < teddy.colors.length; i++) {
             let option = document.querySelector('#colorSelect');
             option.innerHTML += `<option value="${teddy.colors[i]}">${teddy.colors[i]}</option>`;
-
-            console.log(teddy.colors[i]);
         }
     }
     showColors(teddy);
@@ -64,6 +60,7 @@ async function addToCart(teddy) {
             const color = selection.value;
             let howMany = 1;
 
+            // Creating the object 'product'
             let products = {
                 name: teddy.name,
                 productId: teddy._id,
@@ -73,17 +70,16 @@ async function addToCart(teddy) {
                 image: teddy.imageUrl,
                 tagKey: teddy._id + color,
             };
-            console.log(products);
 
             let productInCart = JSON.parse(localStorage.getItem('products'));
-            console.log(productInCart);
-            console.log(localStorage);
 
             if (productInCart) {
+                // If cart contains something
                 productInCart.push(products);
                 localStorage.setItem('products', JSON.stringify(productInCart));
                 console.log(productInCart);
             } else {
+                // Else, if empty
                 productInCart = [];
                 productInCart.push(products);
                 localStorage.setItem('products', JSON.stringify(productInCart));
