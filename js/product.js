@@ -74,11 +74,28 @@ async function addToCart(teddy) {
             let productInCart = JSON.parse(localStorage.getItem('products'));
 
             if (productInCart) {
-                // If cart contains something
-                productInCart.push(products);
-                localStorage.setItem('products', JSON.stringify(productInCart));
-                console.log(productInCart);
-                alert('Produit ajouté au panier.');
+                // If cart already contains an instance of the same product, the quantity is incremented
+                let item = productInCart.find(
+                    (item) => item.productId === teddyId
+                );
+                if (item) {
+                    item.quantity += 1;
+                    item.price += teddy.price / 100;
+                    localStorage.setItem(
+                        'products',
+                        JSON.stringify(productInCart)
+                    );
+                    alert('Produit ajouté au panier.');
+                } else {
+                    // If cart contains something else, new product is added
+                    productInCart.push(products);
+                    localStorage.setItem(
+                        'products',
+                        JSON.stringify(productInCart)
+                    );
+                    console.log(productInCart);
+                    alert('Produit ajouté au panier.');
+                }
             } else {
                 // Else, if empty
                 productInCart = [];
