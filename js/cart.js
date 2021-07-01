@@ -109,19 +109,26 @@ function order() {
         let orderContent = {};
         orderContent = { contact, products };
 
-        // Making a POST request to the API then fetching the orderId, finally redirecting to confirm.html
-        return fetch('http://localhost:3000/api/teddies/order', {
-            method: 'POST',
-            body: JSON.stringify(orderContent),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-            .then((response) => response.json())
-            .then((res) => localStorage.setItem('orderId', res.orderId))
-            .then(() => (window.location = 'confirm.html'))
-            .catch((error) => {
-                console.log('Erreur de connexion au serveur', error);
-            });
+        //Verifying mail is valid
+        if (!email.match('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')) {
+            alert(
+                "Votre mail n'est pas valide, merci de corriger votre saisie"
+            );
+        } else {
+            // Making a POST request to the API then fetching the orderId, finally redirecting to confirm.html
+            return fetch('http://localhost:3000/api/teddies/order', {
+                method: 'POST',
+                body: JSON.stringify(orderContent),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then((response) => response.json())
+                .then((res) => localStorage.setItem('orderId', res.orderId))
+                .then(() => (window.location = 'confirm.html'))
+                .catch((error) => {
+                    console.log('Erreur de connexion au serveur', error);
+                });
+        }
     });
 }

@@ -78,12 +78,14 @@ async function addToCart(teddy) {
                 productInCart.push(products);
                 localStorage.setItem('products', JSON.stringify(productInCart));
                 console.log(productInCart);
+                alert('Produit ajouté au panier.');
             } else {
                 // Else, if empty
                 productInCart = [];
                 productInCart.push(products);
                 localStorage.setItem('products', JSON.stringify(productInCart));
                 console.log(productInCart);
+                alert('Produit ajouté au panier.');
             }
         });
     console.log(localStorage);
