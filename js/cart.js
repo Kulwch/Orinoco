@@ -62,10 +62,16 @@ function displayCart() {
 
 // Order button is disabled as long as the cart is empty
 async function disableBtn() {
-    if (!localStorage.getItem('products')) {
-        document.getElementById('orderCart').disabled = true;
-    } else {
-        document.getElementById('orderCart').disabled = false;
+    let strings = document.querySelectorAll('.inputs');
+    for (k = 0; k < strings.length; k++) {
+        console.log(strings[k].value);
+        if (strings[k].value == '') {
+            document.getElementById('orderCart').disabled = true;
+        } else if (!localStorage.getItem('products')) {
+            document.getElementById('orderCart').disabled = true;
+        } else {
+            document.getElementById('orderCart').disabled = false;
+        }
     }
 }
 disableBtn();
