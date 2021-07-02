@@ -2,10 +2,10 @@
 <html lang="fr">
 
 <head>
-    <title>Orinounours</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="Orinounours, une plateforme Orinoco" />
+    <meta name="description" content="confirmation de commande" />
     <meta charset="utf-8" />
+    <title>Confirmation de commande</title>
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="css/style.css" />
@@ -24,6 +24,7 @@
                             <li class="nav-item active">
                                 <a class="nav-link" href="index.html">Accueil</a>
                             </li>
+
                             <li class="nav-item">
                                 <a class="nav-link" href="cart.html">Panier</a>
                             </li>
@@ -33,29 +34,27 @@
             </div>
         </div>
     </header>
-    <main>
-        <div class="container-fluid">
-            <h1 class="text-center mb-4">
-                Nos boules de tendresse à adopter :
-            </h1>
-            <p class="text-center">
-                Pour voir les options de personnalisation, cliquer sur le
-                nounours qui vous plaît.
-            </p>
-            <div class="row list-group-horizontal-lg teddyList" id="productsList">
-                <!-- Products added via DOM modifications after requesting the server all infos-->
+    <main class="bg-primary">
+        <div class="container">
+            <div class="row" id="cart">
+                <h1 class="h2">Confirmation de commande</h1>
+                <br />
             </div>
+            <br />
         </div>
+        <div class="container orderSummary">
+        </div>
+        <br />
     </main>
     <footer class="page-footer bg-secondary">
         <div class="
-                        footer-copyright
-                        text-center
-                        py-3
-                        container-fluid
-                        d-flex
-                        justify-content-evenly
-                    ">
+                    footer-copyright
+                    text-center
+                    py-3
+                    container-fluid
+                    d-flex
+                    justify-content-evenly
+                ">
             <a href="#" class="text-decoration-none text-dark">Mentions légales</a>
             <a href="mailto:orinounours@orinoco.fr" class="text-decoration-none text-dark">Contact</a>
         </div>
@@ -64,7 +63,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/js/bootstrap.min.js"
         integrity="sha512-EKWWs1ZcA2ZY9lbLISPz8aGR2+L7JVYqBAYTq5AXgBkSjRSuQEGqWx8R1zAX16KdXPaCjOCaKE8MCpU0wcHlHA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="js/index.js"></script>
+    <script src="js/confirm.js"></script>
 </body>
 
 </html>
