@@ -27,7 +27,7 @@ async function displayTeddy(teddy) {
                         }"  alt="Oh le joli nounours !" />
                         <div class="card-body teddyInfos text-dark">
                             <h5 class="card-title name">${teddy.name}</h5>
-                            <button id="addCart" onclick="addToCart()" class="btn btn-secondary addBtn" >Ajouter au panier</button>
+                            <button id="addCart" class="btn btn-secondary addBtn" >Ajouter au panier</button>
                             <select name="color" id="colorSelect">                                
                                 <label>couleur souhaitée</label>
                             </select>
@@ -47,7 +47,6 @@ async function displayTeddy(teddy) {
     showColors(teddy);
     addToCart(teddy);
 }
-getTeddy();
 
 let productInCart = JSON.parse(localStorage.getItem('products'));
 
@@ -60,14 +59,13 @@ async function addToCart(teddy) {
 
             const selection = document.querySelector('#colorSelect');
             const color = selection.value;
-            let howMany = 1;
 
             // Creating the object 'product'
             let products = {
                 name: teddy.name,
                 productId: teddy._id,
                 option: color,
-                quantity: howMany,
+                quantity: 1,
                 price: teddy.price / 100,
                 image: teddy.imageUrl,
                 tagKey: teddy._id + color,
@@ -77,7 +75,7 @@ async function addToCart(teddy) {
             if (productInCart) {
                 // If cart already contains an instance of the same product, the quantity is incremented
                 let item = productInCart.find(
-                    (item) => item.productId === teddyId
+                    (item) => item.tagKey === teddy._id + color
                 );
                 if (item) {
                     item.quantity += 1;
@@ -100,5 +98,4 @@ async function addToCart(teddy) {
 // Async function to avoid repeating
 async function addStorage() {
     localStorage.setItem('products', JSON.stringify(productInCart));
-    alert('Produit ajouté au panier.');
 }

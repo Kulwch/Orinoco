@@ -28,10 +28,10 @@ function displayOrder() {
     />
     <div class="card-body teddyInfos text-dark">
         <h5 class="card-title name">${products[i].name}</h5>
+        <p class="color">${products[i].option}</p>
         <p class="price text-decoration-none">${products[i].price}.00 &euro;</p>
         <p class="quantity">Quantité: ${products[i].quantity}</p>
     </div>
 </div>`;
     }
 }
-displayOrder();

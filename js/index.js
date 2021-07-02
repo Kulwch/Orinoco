@@ -38,6 +38,3 @@ function displayTeddiesCards(teddies) {
             `;
     }
 }
-
-// Calling function
-getTeddies();
