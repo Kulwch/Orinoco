@@ -9,14 +9,14 @@ async function getTeddy() {
     const id = teddyId;
     return fetch(`http://localhost:3000/api/teddies/${id}`)
         .then((response) => response.json())
-        .then((teddy) => displayThisTeddy(teddy))
+        .then((teddy) => displayTeddy(teddy))
         .catch((error) => {
             console.log('Erreur de connexion au serveur', error);
         });
 }
 
 // Displaying the fetched Teddy's card
-async function displayThisTeddy(teddy) {
+async function displayTeddy(teddy) {
     const element = document.querySelector('.thisTeddy'); // Where the HTML will be injected
 
     element.innerHTML += `
@@ -49,6 +49,8 @@ async function displayThisTeddy(teddy) {
 }
 getTeddy();
 
+let productInCart = JSON.parse(localStorage.getItem('products'));
+
 // Adding selected product to cart on click
 async function addToCart(teddy) {
     document.getElementById('addCart').onclick =
@@ -71,8 +73,7 @@ async function addToCart(teddy) {
                 tagKey: teddy._id + color,
             };
 
-            let productInCart = JSON.parse(localStorage.getItem('products'));
-
+            // If cart is not empty
             if (productInCart) {
                 // If cart already contains an instance of the same product, the quantity is incremented
                 let item = productInCart.find(
@@ -81,29 +82,23 @@ async function addToCart(teddy) {
                 if (item) {
                     item.quantity += 1;
                     item.price += teddy.price / 100;
-                    localStorage.setItem(
-                        'products',
-                        JSON.stringify(productInCart)
-                    );
-                    alert('Produit ajouté au panier.');
+                    addStorage();
                 } else {
                     // If cart contains something else, new product is added
                     productInCart.push(products);
-                    localStorage.setItem(
-                        'products',
-                        JSON.stringify(productInCart)
-                    );
-                    console.log(productInCart);
-                    alert('Produit ajouté au panier.');
+                    addStorage();
                 }
             } else {
                 // Else, if empty
                 productInCart = [];
                 productInCart.push(products);
-                localStorage.setItem('products', JSON.stringify(productInCart));
-                console.log(productInCart);
-                alert('Produit ajouté au panier.');
+                addStorage();
             }
         });
-    console.log(localStorage);
+}
+
+// Async function to avoid repeating
+async function addStorage() {
+    localStorage.setItem('products', JSON.stringify(productInCart));
+    alert('Produit ajouté au panier.');
 }

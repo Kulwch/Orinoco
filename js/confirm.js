@@ -3,13 +3,13 @@ function displayOrder() {
     // Creating the order summary
     document.querySelector('.orderSummary').innerHTML = `
     <h2 class="h4 text-center">Merci pour votre commande ! Voici le récapitulatif : </h2>
-    <br/>
-    <br/>
+        <br/>
+        <br/>
     <h3 class="text-center h5"><strong>Numéro de commande :</strong> ${localStorage.getItem(
         'orderId'
     )}</h3>
-    <br/>
-    <br/>
+        <br/>
+        <br/>
     <div class="row content">
     </div>     
     <p class="text-center mt-1">Montant total de votre commande : <strong> ${localStorage.getItem(

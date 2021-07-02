@@ -14,7 +14,7 @@ function displayCart() {
         // When cart contains items, creating elements to display it
         for (let i = 0; i < products.length; i++) {
             elt.innerHTML += `
-            <div class="col-4 col-md-3 col-lg-2 class="cartItem${products[i].productId}">
+            <div class="col-4 col-md-3 col-lg-2 cartItem${products[i].productId}">
                 <a href="product.html?${products[i].productId}" class="text-decoration-none productLink">
                     <img class="card-img-top img-fluid" src="${products[i].image}" alt="Oh le joli nounours !"/>
                     <div class="card-body teddyInfos text-dark">
@@ -51,12 +51,8 @@ function displayCart() {
     }
     // Total is calculated with a map.reduce of prices
     total = prices
-        .map((x) => {
-            return parseInt(x, 10);
-        })
-        .reduce(function (total, num) {
-            return total + num;
-        });
+        .map((x) => parseInt(x, 10))
+        .reduce((total, num) => total + num, 0);
 
     // Then total is stored in localStorage and displayed
     localStorage.setItem('total', total);
@@ -109,26 +105,19 @@ function order() {
         let orderContent = {};
         orderContent = { contact, products };
 
-        //Verifying mail is valid
-        if (!email.match('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')) {
-            alert(
-                "Votre mail n'est pas valide, merci de corriger votre saisie"
-            );
-        } else {
-            // Making a POST request to the API then fetching the orderId, finally redirecting to confirm.html
-            return fetch('http://localhost:3000/api/teddies/order', {
-                method: 'POST',
-                body: JSON.stringify(orderContent),
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-                .then((response) => response.json())
-                .then((res) => localStorage.setItem('orderId', res.orderId))
-                .then(() => (window.location = 'confirm.html'))
-                .catch((error) => {
-                    console.log('Erreur de connexion au serveur', error);
-                });
-        }
+        // Making a POST request to the API then fetching the orderId, finally redirecting to confirm.html
+        return fetch('http://localhost:3000/api/teddies/order', {
+            method: 'POST',
+            body: JSON.stringify(orderContent),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then((response) => response.json())
+            .then((res) => localStorage.setItem('orderId', res.orderId))
+            .then(() => (window.location = 'confirm.html'))
+            .catch((error) => {
+                console.log('Erreur de connexion au serveur', error);
+            });
     });
 }
