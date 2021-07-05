@@ -60,22 +60,6 @@ function displayCart() {
     totalPrice.innerHTML = `${total},00 &euro;`;
 }
 
-// Order button is disabled as long as the cart is empty
-async function disableBtn() {
-    let strings = document.querySelectorAll('.inputs');
-    for (k = 0; k < strings.length; k++) {
-        console.log(strings[k].value);
-        if (strings[k].value == '') {
-            document.getElementById('orderCart').disabled = true;
-        } else if (!localStorage.getItem('products')) {
-            document.getElementById('orderCart').disabled = true;
-        } else {
-            document.getElementById('orderCart').disabled = false;
-        }
-    }
-}
-disableBtn();
-
 // Clearing the cart from everything in it when clicking btn clearCart
 function clearCart() {
     if (localStorage.getItem('product') != 'true') {
@@ -83,6 +67,23 @@ function clearCart() {
         window.location.reload();
     }
 }
+
+function disallowOrder() {
+    document.getElementById('orderCart').disabled = true;
+    document
+        .getElementById('orderForm')
+        .insertAdjacentHTML(
+            'beforeend',
+            "<p>Commande impossible, le formulaire n'est pas complet ou a mal été saisi.</p>"
+        );
+}
+
+function disableBtn() {
+    if (localStorage.getItem('products') != true) {
+        document.getElementById('orderCart').disabled = true;
+    }
+}
+disableBtn();
 
 function order() {
     //Defining the variables
@@ -106,18 +107,44 @@ function order() {
     let orderContent = {};
     orderContent = { contact, products };
 
-    // Making a POST request to the API then fetching the orderId, finally redirecting to confirm.html
-    return fetch('http://localhost:3000/api/teddies/order', {
-        method: 'POST',
-        body: JSON.stringify(orderContent),
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    })
-        .then((response) => response.json())
-        .then((res) => localStorage.setItem('orderId', res.orderId))
-        .then(() => (window.location = 'confirm.html'))
-        .catch((error) => {
-            console.log('Erreur de connexion au serveur', error);
-        });
+    // Verify first Name
+    if (!firstName.match(`^[a-zA-Z'-]+$`)) {
+        disallowOrder();
+        document
+            .getElementById('orderForm')
+            .insertAdjacentHTML('beforeend', '<p>Champ concerné: prénom.</p>');
+    }
+
+    // Verify name
+    else if (!lastName.match(`^[a-zA-Z'-]+$`)) {
+        disallowOrder();
+        document
+            .getElementById('orderForm')
+            .insertAdjacentHTML('beforeend', '<p>Champ concerné: nom.</p>');
+    }
+
+    // REGEX are not very efficient with addresses and city name, so they're not used here
+
+    // Verify mail
+    else if (!email.match(`^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$`)) {
+        disallowOrder();
+        document
+            .getElementById('orderForm')
+            .insertAdjacentHTML('beforeend', '<p>Champ concerné: email.</p>');
+    } else {
+        // Making a POST request to the API then fetching the orderId, finally redirecting to confirm.html
+        return fetch('http://localhost:3000/api/teddies/order', {
+            method: 'POST',
+            body: JSON.stringify(orderContent),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then((response) => response.json())
+            .then((res) => localStorage.setItem('orderId', res.orderId))
+            .then(() => (window.location = 'confirm.html'))
+            .catch((error) => {
+                console.log('Erreur de connexion au serveur', error);
+            });
+    }
 }
