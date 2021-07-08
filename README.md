@@ -11,28 +11,26 @@ The MVP must display a dynamic webpage of the products, with cards linking to a 
 The cart and an order confirmation are the two other pages needed to be settled in this project.
 
 The purpose of this project is to establish data exhanges between the API and the front-end. All data has to be validated before any request is sent.
-Html is set with Bootstrap.
+Html is set with _Bootstrap_.
 
-(Further information will be added)
+## Application launch steps:
 
-Application launch steps:
-
-1° Local server
+### 1° Setting the local server
 
 -   clone this repo: https://github.com/OpenClassrooms-Student-Center/JWDP5.git
 -   Open the folder in your code editor
 -   Open a new terminal, enter 'npm install'
 -   then enter 'node server'
 
-The local server is launched on port: 3000
+The local server is launched on port: **3000**
 
-2° Testing the MVP
+### 2° Testing the MVP
 
 -   Either you go on the GitHub Page while node server is active: kulwch.github.io/orinoco/
 
 -   Or you can also open index.html in your local browser
 
-You can now test the application features:
+### You can now test the application features:
 
 -   see product details, choose a customization option(color), add the product to the Cart
 
