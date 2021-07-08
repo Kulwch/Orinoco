@@ -74,16 +74,9 @@ function disallowOrder() {
         .getElementById('orderForm')
         .insertAdjacentHTML(
             'beforeend',
-            "<p>Commande impossible, le formulaire n'est pas complet ou a mal été saisi.</p>"
+            "<p>Commande impossible, le formulaire n'est pas complet ou a mal été saisi. Veuillez rafraîchir la page et recommencer.</p>"
         );
 }
-
-function disableBtn() {
-    if (localStorage.getItem('products') != true) {
-        document.getElementById('orderCart').disabled = true;
-    }
-}
-disableBtn();
 
 function order() {
     //Defining the variables
@@ -107,8 +100,17 @@ function order() {
     let orderContent = {};
     orderContent = { contact, products };
 
+    //Verify cart is not empty
+    if (localStorage.getItem('total') == 0) {
+        document
+            .getElementById('orderForm')
+            .insertAdjacentHTML(
+                'beforeend',
+                '<p>Impossible de commander un panier vide.</p>'
+            );
+    }
     // Verify first Name
-    if (!firstName.match(`^[a-zA-Z'-]+$`)) {
+    else if (!firstName.match(`^[a-zA-Z'-]+$`)) {
         disallowOrder();
         document
             .getElementById('orderForm')
