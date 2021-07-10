@@ -1,21 +1,22 @@
 let productsId = [];
-
 let products = JSON.parse(localStorage.getItem('products'));
 let prices = [];
 
 // Displaying the cart with its content
 function displayCart() {
-    const elt = document.querySelector('#cart');
-    
+    const elt = document.querySelector('#cart');   
 
     //if cart is empty, displaying a message
     if (!localStorage.getItem('products')) {
         elt.innerHTML = 'Votre panier est vide';
     } else {
         // When cart contains items, creating elements to display it
-        for (let i = 0; i < products.length; i++) {
+        for (let i = 0; i < products.length; i++) {      
+            
+             
+
             elt.innerHTML += `
-            <div class="col-4 col-md-3 col-lg-2 ${products[i].tagKey}">
+            <div class="col-4 col-md-3 col-lg-2">
                 <a href="product.html?${products[i].productId}" class="text-decoration-none productLink">
                     <img class="card-img-top img-fluid" src="${products[i].image}" alt="Oh le joli nounours !"/>
                     <div class="card-body teddyInfos text-dark">
@@ -25,18 +26,18 @@ function displayCart() {
                         <p class="price">Prix: ${products[i].price}.00 &euro;</p>                       
                     </div>
                 </a>  
-                 <button class="btn btn-warning btnRemove" onclick="removeItem(products)">Enlever cet article</button>                             
+                 <button class="btn btn-warning btnRemove">Enlever cet article</button>                             
             </div>
             `;
 
             // The prices are pushed in an array, and so are the ids
             prices.push(`${products[i].price}`);
-            productsId.push(`${products[i].productId}`);
-
+            productsId.push(`${products[i].productId}`);           
            
         }
     }
     totalCalc(prices);
+    removeItem();
     
 }
 
@@ -53,17 +54,20 @@ function totalCalc(prices) {
     totalPrice.innerHTML = `${total},00 &euro;`;
 }
 
-function removeItem(products) {
-    // Removal of an item when clicking the btnRemove button
-    btnRemove = document.querySelector('.btnRemove');    
-       
-        let itemToRemove = `${products[i].tagKey}` ;
-        
+function removeItem() {
+   // Removal of an item when clicking the btnRemove button
+    btnRemove = document.querySelectorAll('.btnRemove');
 
-        // Using filter to separate the item to remove from the rest of the array
-        products = products.filter((element) => element.tagKey !== itemToRemove);
-        localStorage.setItem('products', JSON.stringify(products));
-        window.location = 'cart.html';
+    for (let j = 0; j < btnRemove.length; j++) {
+        btnRemove[j].addEventListener('click', (e) => {
+            e.preventDefault();
+            let itemToRemove = `${products[j].tagKey}`;
+            // Using filter to separate the item to remove from the rest of the array
+            products = products.filter((element) => element.tagKey !== itemToRemove);
+            localStorage.setItem('products', JSON.stringify(products));
+            window.location.reload();
+        });
+    }
 }
 
 
@@ -75,16 +79,6 @@ function clearCart() {
     }
 }
 
-function disallowOrder() {
-    document.getElementById('orderCart').disabled = true;
-    document
-        .getElementById('orderForm')
-        .insertAdjacentHTML(
-            'beforeend',
-            "<p>Commande impossible, le formulaire n'est pas complet ou a mal été saisi. Veuillez rafraîchir la page et recommencer.</p>"
-        );
-}
-
 function order() {
     //Defining the variables
     const firstName = document.getElementById('firstName').value;
@@ -92,55 +86,48 @@ function order() {
     const address = document.getElementById('address').value;
     const city = document.getElementById('city').value;
     const email = document.getElementById('email').value;
-
-    //Creating the contact object
-    const contact = {
-        firstName: firstName,
-        lastName: lastName,
-        address: address,
-        city: city,
-        email: email,
-    };
-    let products = productsId;
-
-    // Creating the object which will be the body of the request
-    let orderContent = {};
-    orderContent = { contact, products };
+   
 
     //Verify cart is not empty
-    if (localStorage.getItem('total') == 0) {
-        document
-            .getElementById('orderForm')
-            .insertAdjacentHTML(
-                'beforeend',
-                '<p>Impossible de commander un panier vide.</p>'
-            );
-    }
+    if (localStorage.getItem('total') == 0 ||
+
     // Verify first Name
-    else if (!firstName.match(`^[a-zA-Z'-]+$`)) {
-        disallowOrder();
-        document
-            .getElementById('orderForm')
-            .insertAdjacentHTML('beforeend', '<p>Champ concerné: prénom.</p>');
-    }
+    !firstName.match(`^[a-zA-Z'-]+$`) ||   
 
     // Verify name
-    else if (!lastName.match(`^[a-zA-Z'-]+$`)) {
-        disallowOrder();
-        document
-            .getElementById('orderForm')
-            .insertAdjacentHTML('beforeend', '<p>Champ concerné: nom.</p>');
-    }
+    !lastName.match(`^[a-zA-Z'-]+$`) ||
 
     // REGEX are not very efficient with addresses and city name, so they're not used here
-
+    // Verify address
+    address === ' ' ||
+   
+    // Verify city
+    city === ' ' ||
+  
     // Verify mail
-    else if (!email.match(`^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$`)) {
-        disallowOrder();
+    !email.match(`^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$`)){
         document
-            .getElementById('orderForm')
-            .insertAdjacentHTML('beforeend', '<p>Champ concerné: email.</p>');
+        .getElementById('orderForm')
+        .insertAdjacentHTML(
+            'beforeend',
+            "<p>Commande impossible, pensez à remplir tous les champs.</p>");
+    
     } else {
+
+        //Creating the contact object
+        const contact = {
+            firstName: firstName,
+            lastName: lastName,
+            address: address,
+            city: city,
+            email: email,
+        };
+        let products = productsId;
+
+        // Creating the object which will be the body of the request
+        let orderContent = {};
+        orderContent = { contact, products };
+
         // Making a POST request to the API then fetching the orderId, finally redirecting to confirm.html
         return fetch('http://localhost:3000/api/teddies/order', {
             method: 'POST',
