@@ -1,11 +1,12 @@
 let productsId = [];
 
+let products = JSON.parse(localStorage.getItem('products'));
+let prices = [];
+
 // Displaying the cart with its content
 function displayCart() {
     const elt = document.querySelector('#cart');
-    let products = JSON.parse(localStorage.getItem('products'));
-    let total = 0;
-    let prices = [];
+    
 
     //if cart is empty, displaying a message
     if (!localStorage.getItem('products')) {
@@ -14,17 +15,17 @@ function displayCart() {
         // When cart contains items, creating elements to display it
         for (let i = 0; i < products.length; i++) {
             elt.innerHTML += `
-            <div class="col-4 col-md-3 col-lg-2 cartItem${products[i].tagKey}">
+            <div class="col-4 col-md-3 col-lg-2 ${products[i].tagKey}">
                 <a href="product.html?${products[i].productId}" class="text-decoration-none productLink">
                     <img class="card-img-top img-fluid" src="${products[i].image}" alt="Oh le joli nounours !"/>
                     <div class="card-body teddyInfos text-dark">
                         <h5 class="card-title name">${products[i].name}</h5>
                         <p class="color">Couleur: ${products[i].option}</p>
                         <p class="quantity">Quantité: ${products[i].quantity}</p> 
-                        <p class="price">Prix: ${products[i].price}.00 &euro;</p>
-                        <button class="btn btn-warning btnRemove">Enlever cet article</button>
+                        <p class="price">Prix: ${products[i].price}.00 &euro;</p>                       
                     </div>
-                </a>                               
+                </a>  
+                 <button class="btn btn-warning btnRemove" onclick="removeItem(products)">Enlever cet article</button>                             
             </div>
             `;
 
@@ -32,23 +33,15 @@ function displayCart() {
             prices.push(`${products[i].price}`);
             productsId.push(`${products[i].productId}`);
 
-            // Removal of an item when clicking the btnRemove button
-            btnRemove = document.querySelectorAll('.btnRemove');
-
-            for (let j = 0; j < btnRemove.length; j++) {
-                btnRemove[j].addEventListener('click', (e) => {
-                    e.preventDefault();
-                    let itemToRemove = `${products[j].tagKey}`;
-                    // Using filter to separate the item to remove from the rest of the array
-                    products = products.filter(
-                        (element) => element.tagKey !== itemToRemove
-                    );
-                    localStorage.setItem('products', JSON.stringify(products));
-                    window.location.reload();
-                });
-            }
+           
         }
     }
+    totalCalc(prices);
+    
+}
+
+function totalCalc(prices) {
+    let total = 0;
     // Total is calculated with a map.reduce of prices
     total = prices
         .map((x) => parseInt(x, 10))
@@ -59,6 +52,20 @@ function displayCart() {
     const totalPrice = document.querySelector('.totalPrice');
     totalPrice.innerHTML = `${total},00 &euro;`;
 }
+
+function removeItem(products) {
+    // Removal of an item when clicking the btnRemove button
+    btnRemove = document.querySelector('.btnRemove');    
+       
+        let itemToRemove = `${products[i].tagKey}` ;
+        
+
+        // Using filter to separate the item to remove from the rest of the array
+        products = products.filter((element) => element.tagKey !== itemToRemove);
+        localStorage.setItem('products', JSON.stringify(products));
+        window.location = 'cart.html';
+}
+
 
 // Clearing the cart from everything in it when clicking btn clearCart
 function clearCart() {
