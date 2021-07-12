@@ -9,6 +9,7 @@ function displayCart() {
     //if cart is empty, displaying a message
     if (!localStorage.getItem('products')) {
         elt.innerHTML = 'Votre panier est vide';
+        document.querySelector('#orderCart').disabled = true;
     } else {
         // When cart contains items, creating elements to display it
         for (let i = 0; i < products.length; i++) {  
