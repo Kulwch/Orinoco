@@ -11,10 +11,7 @@ function displayCart() {
         elt.innerHTML = 'Votre panier est vide';
     } else {
         // When cart contains items, creating elements to display it
-        for (let i = 0; i < products.length; i++) {      
-            
-             
-
+        for (let i = 0; i < products.length; i++) {  
             elt.innerHTML += `
             <div class="col-4 col-md-3 col-lg-2">
                 <a href="product.html?${products[i].productId}" class="text-decoration-none productLink">
@@ -32,26 +29,11 @@ function displayCart() {
 
             // The prices are pushed in an array, and so are the ids
             prices.push(`${products[i].price}`);
-            productsId.push(`${products[i].productId}`);           
-           
+            productsId.push(`${products[i].productId}`);            
         }
     }
     totalCalc(prices);
-    removeItem();
-    
-}
-
-function totalCalc(prices) {
-    let total = 0;
-    // Total is calculated with a map.reduce of prices
-    total = prices
-        .map((x) => parseInt(x, 10))
-        .reduce((total, num) => total + num, 0);
-
-    // Then total is stored in localStorage and displayed
-    localStorage.setItem('total', total);
-    const totalPrice = document.querySelector('.totalPrice');
-    totalPrice.innerHTML = `${total},00 &euro;`;
+    removeItem();    
 }
 
 function removeItem() {
@@ -70,6 +52,18 @@ function removeItem() {
     }
 }
 
+function totalCalc(prices) {
+    let total = 0;
+    // Total is calculated with a map.reduce of prices
+    total = prices
+        .map((x) => parseInt(x, 10))
+        .reduce((total, num) => total + num, 0);
+
+    // Then total is stored in localStorage and displayed
+    localStorage.setItem('total', total);
+    const totalPrice = document.querySelector('.totalPrice');
+    totalPrice.innerHTML = `${total},00 &euro;`;
+}
 
 // Clearing the cart from everything in it when clicking btn clearCart
 function clearCart() {
@@ -80,6 +74,7 @@ function clearCart() {
 }
 
 function order() {
+
     //Defining the variables
     const firstName = document.getElementById('firstName').value;
     const lastName = document.getElementById('lastName').value;
@@ -97,12 +92,12 @@ function order() {
     // Verify name
     !lastName.match(`^[a-zA-Z'-]+$`) ||
 
-    // REGEX are not very efficient with addresses and city name, so they're not used here
+    // REGEX are not efficient with addresses and city names, so they're not used here
     // Verify address
-    address === ' ' ||
+    address === '' ||
    
     // Verify city
-    city === ' ' ||
+    city === '' ||
   
     // Verify mail
     !email.match(`^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$`)){
