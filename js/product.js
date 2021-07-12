@@ -15,7 +15,7 @@ async function getTeddy() {
         });
 }
 
-// Displaying the fetched Teddy's card
+// Display the fetched Teddy's card
 async function displayTeddy(teddy) {
     const element = document.querySelector('.thisTeddy'); // Where the HTML will be injected
 
@@ -37,15 +37,17 @@ async function displayTeddy(teddy) {
                     </div>
                 </div>
             `;
-    // Display the available customization options (colors)
-    async function showColors(teddy) {
-        for (i = 0; i < teddy.colors.length; i++) {
-            let option = document.querySelector('#colorSelect');
-            option.innerHTML += `<option value="${teddy.colors[i]}">${teddy.colors[i]}</option>`;
-        }
-    }
+  
     showColors(teddy);
     addToCart(teddy);
+}
+
+// Display the available customization options (colors)
+async function showColors(teddy) {
+    for (i = 0; i < teddy.colors.length; i++) {
+        let option = document.querySelector('#colorSelect');
+        option.innerHTML += `<option value="${teddy.colors[i]}">${teddy.colors[i]}</option>`;
+    }
 }
 
 let productInCart = JSON.parse(localStorage.getItem('products'));
@@ -60,7 +62,7 @@ async function addToCart(teddy) {
             const selection = document.querySelector('#colorSelect');
             const color = selection.value;
 
-            // Creating the object 'product'
+            // Creating the object 'products'
             let products = {
                 name: teddy.name,
                 productId: teddy._id,

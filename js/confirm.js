@@ -20,18 +20,18 @@ function displayOrder() {
     const content = document.querySelector('.content');
     for (let i = 0; i < products.length; i++) {
         content.innerHTML += `
-<div class="card col col-md-4">
-    <img
-        class="card-img-top"
-        src="${products[i].image}"
-        alt="Oh le joli nounours !"
-    />
-    <div class="card-body teddyInfos text-dark">
-        <h5 class="card-title name">${products[i].name}</h5>
-        <p class="color">${products[i].option}</p>
-        <p class="price text-decoration-none">${products[i].price}.00 &euro;</p>
-        <p class="quantity">Quantité: ${products[i].quantity}</p>
-    </div>
-</div>`;
+        <div class="card col col-md-4">
+            <img
+                class="card-img-top"
+                src="${products[i].image}"
+                alt="Oh le joli nounours !"
+            />
+            <div class="card-body teddyInfos text-dark">
+                <h5 class="card-title name">${products[i].name}</h5>
+                <p class="color">${products[i].option}</p>
+                <p class="price text-decoration-none">${products[i].price}.00 &euro;</p>
+                <p class="quantity">Quantité: ${products[i].quantity}</p>
+            </div>
+        </div>`;
     }
 }

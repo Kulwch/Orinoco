@@ -17,8 +17,8 @@
             <div class="row">
                 <nav class="col navbar navbar-light">
                     <a class="navbar-brand h1" href="index.html">
-                        <img class="pr-1" src="images/logo.png" width="100" height="100"
-                            alt="Site logo" />Orinounours</a>
+                        <img class="pr-1" src="images/logo.png" width="100" height="100" alt="Site logo" />
+                        Orinounours</a>
                     <div id="navbarContent" class="justify-content-around">
                         <ul class="nav justify-content-end">
                             <li class="nav-item active">
@@ -34,6 +34,7 @@
             </div>
         </div>
     </header>
+
     <main class="bg-primary">
         <div class="container">
             <div class="row" id="cart">
@@ -55,51 +56,45 @@
             </div>
         </div>
         <br />
-        <div class="row">
-            <div class="mx-3 col-12 col-md-4">
-                <h3 class="h4">Commander le contenu de votre panier :</h3>
-                <form id="orderForm" method="POST">
-                    <div class="form-group">
+        <div class="container">
+            <h3 class="h4">Commander le contenu de votre panier :</h3>
+            <form class="form-inline" id="orderForm" method="POST">
+                <div class="form-row d-md-flex justify-content-start">
+                    <div class="col col-md-3">
                         <label for="firstName">Prénom</label>
-                        <input type="text" class="form-control inputs" id="firstName" aria-describedby="firstNameHelp"
-                            placeholder="Saisissez votre prénom" required />
-                        <small id="firstNameHelp" class="form-text text-muted">Vous avez bien un prénom ?</small>
+                        <input type="text" class="form-control" id="firstName" placeholder="Saisissez votre prénom"
+                            required>
                     </div>
-                    <div class="form-group">
+                    <div class="col col-md-4 mx-md-4">
                         <label for="lastName">Nom</label>
-                        <input type="text" class="form-control inputs" id="lastName" aria-describedby="lastNameHelp"
-                            placeholder="Saisissez votre nom" required />
-                        <small id="lastNameHelp" class="form-text text-muted">Et vous avez aussi un nom ?</small>
+                        <input type="text" class="form-control" id="lastName" placeholder="Saisissez votre nom"
+                            required>
                     </div>
-                    <div class="form-group">
+                    <div class="col col-md-3 mx-md-4">
                         <label for="address">Adresse</label>
-                        <input type="text" class="form-control inputs" id="address" aria-describedby="addressHelp"
-                            placeholder="Saisissez votre adresse" required />
-                        <small id="addressHelp" class="form-text text-muted">Vous habitez encore chez vos parents
-                            ?</small>
+                        <input type="text" class="form-control" id="address" placeholder="Saisissez votre adresse"
+                            required>
                     </div>
-                    <div class="form-group">
+                </div>
+                <div class="form-row d-md-flex justify-content-start">
+                    <div class="col col-md-4 ">
                         <label for="city">Ville</label>
-                        <input type="text" class="form-control inputs" id="city" aria-describedby="cityHelp"
-                            placeholder="Saisissez votre ville" minlength="1" maxlength="45" required />
-                        <small id="cityHelp" class="form-text text-muted">Ville de résidence ?</small>
+                        <input type="text" class="form-control" id="city" placeholder="Saisissez le nom de votre ville"
+                            required>
                     </div>
-                    <div class="form-group">
+                    <div class="col col-md-4 mx-md-4">
                         <label for="email">Adresse mail</label>
-                        <input type="email" class="form-control inputs" id="email" aria-describedby="emailHelp"
-                            placeholder="Saisissez votre adresse mail" required />
-                        <small id="emailHelp" class="form-text text-muted">Votre mail ne sera pas partagé.</small>
+                        <input type="email" class="form-control" id="email" placeholder="Saisissez votre email"
+                            required>
                     </div>
-
-                    <button id="orderCart" type="submit" class="btn btn-secondary" onclick="order()">
-                        Commander
-                    </button>
-                </form>
-            </div>
+                </div>
+                <br />
+                <button id="orderCart" class="btn btn-secondary" type="submit" onclick="order()">Commander</button>
+            </form>
         </div>
-
         <br />
     </main>
+
     <footer class="page-footer bg-secondary">
         <div class="
                     footer-copyright
@@ -113,7 +108,6 @@
             <a href="mailto:orinounours@orinoco.fr" class="text-decoration-none text-dark">Contact</a>
         </div>
     </footer>
-
     <script src="js/cart.js"></script>
 </body>
 
