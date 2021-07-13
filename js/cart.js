@@ -6,7 +6,7 @@ let prices = [];
 function displayCart() {
     const elt = document.querySelector('#cart');   
 
-    //if cart is empty, displaying a message
+    //if cart is empty, display a message and disable button orderCart
     if (!localStorage.getItem('products')) {
         elt.innerHTML = 'Votre panier est vide';
         document.querySelector('#orderCart').disabled = true;
