@@ -1,5 +1,5 @@
 function displayOrder() {
-    const products = JSON.parse(localStorage.getItem('products'));
+    const products = JSON.parse(localStorage.getItem('product'));
     // Creating the order summary
     document.querySelector('.orderSummary').innerHTML = `
     <h2 class="h4 text-center">Merci pour votre commande ! Voici le récapitulatif : </h2>
@@ -18,20 +18,21 @@ function displayOrder() {
 
     // Looping on products to create each product a card to be displayed
     const content = document.querySelector('.content');
-    for (let i = 0; i < products.length; i++) {
+    for (let oneProduct of products) {
         content.innerHTML += `
         <div class="card col col-md-4">
             <img
-                class="card-img-top"
-                src="${products[i].image}"
+                class="card-img-top py-1"
+                src="${oneProduct.image}"
                 alt="Oh le joli nounours !"
             />
             <div class="card-body teddyInfos text-dark">
-                <h5 class="card-title name">${products[i].name}</h5>
-                <p class="color">${products[i].option}</p>
-                <p class="price text-decoration-none">${products[i].price}.00 &euro;</p>
-                <p class="quantity">Quantité: ${products[i].quantity}</p>
+                <h5 class="card-title name">${oneProduct.name}</h5>
+                <p class="color">${oneProduct.option}</p>
+                <p class="price text-decoration-none">${oneProduct.price}.00 &euro;</p>
+                <p class="quantity">Quantité: ${oneProduct.quantity}</p>
             </div>
         </div>`;
     }
+    localStorage.clear();
 }

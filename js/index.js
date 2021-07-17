@@ -12,25 +12,25 @@ async function getTeddies() {
 function displayTeddiesCards(teddies) {
     const element = document.querySelector('#productsList'); // Where the HTML will be injected
 
-    for (let i = 0; i < teddies.length; i++) {
+    for (let teddy of teddies) {
         // looping on the array teddies.length to create as many elements as needed
 
         element.innerHTML += `
                 <div class="col-12 col-md-6 productCard list-group-item">
                     <a
-                        href="product.html?${teddies[i]._id}"
+                        href="product.html?${teddy._id}"
                         class="text-decoration-none productLink"
                     >
                         <img class="card-img-top img-fluid" src="${
-                            teddies[i].imageUrl
+                            teddy.imageUrl
                         }"  alt="Un joli nounours !" />
                         <div class="card-body teddyInfos text-dark">
-                            <h5 class="card-title name">${teddies[i].name}</h5>
+                            <h5 class="card-title name">${teddy.name}</h5>
                             <p class="price">${
-                                teddies[i].price / 100
+                                teddy.price / 100
                             }.00 &euro;</p>
                             <p class="description"> ${
-                                teddies[i].description
+                                teddy.description
                             }</p>
                         </div>
                     </a>

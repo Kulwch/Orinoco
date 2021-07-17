@@ -1,12 +1,12 @@
-// Getting the _id from the url parameters
-const getUrlId = window.location.search;
-
-// Removing the ? from id with .slice()
-const teddyId = getUrlId.slice(1);
-
 // Gathering the teddy from the API with function getTeddy()
 async function getTeddy() {
+    // Getting the _id from the url parameters
+    const getUrlId = window.location.search;
+
+    // Removing the ? from id with .slice()
+    const teddyId = getUrlId.slice(1);
     const id = teddyId;
+
     return fetch(`http://localhost:3000/api/teddies/${id}`)
         .then((response) => response.json())
         .then((teddy) => displayTeddy(teddy))
@@ -44,16 +44,18 @@ async function displayTeddy(teddy) {
 
 // Display the available customization options (colors)
 async function showColors(teddy) {
-    for (i = 0; i < teddy.colors.length; i++) {
+    for (let color of teddy.colors) {
         let option = document.querySelector('#colorSelect');
-        option.innerHTML += `<option value="${teddy.colors[i]}">${teddy.colors[i]}</option>`;
+        option.innerHTML += `<option value="${color}">${color}</option>`;
     }
 }
 
-let productInCart = JSON.parse(localStorage.getItem('products'));
+
 
 // Adding selected product to cart on click
 async function addToCart(teddy) {
+    let productInCart = JSON.parse(localStorage.getItem('product'));
+    
     document.getElementById('addCart').onclick =
         ('click',
         (e) => {
@@ -62,8 +64,8 @@ async function addToCart(teddy) {
             const selection = document.querySelector('#colorSelect');
             const color = selection.value;
 
-            // Creating the object 'products'
-            let products = {
+            // Creating the object 'product'
+            let product = {
                 name: teddy.name,
                 productId: teddy._id,
                 option: color,
@@ -82,22 +84,22 @@ async function addToCart(teddy) {
                 if (item) {
                     item.quantity += 1;
                     item.price += teddy.price / 100;
-                    addStorage();
+                    addStorage(productInCart);
                 } else {
                     // If cart contains something else, new product is added
-                    productInCart.push(products);
-                    addStorage();
+                    productInCart.push(product);
+                    addStorage(productInCart);
                 }
             } else {
                 // Else, if empty
                 productInCart = [];
-                productInCart.push(products);
-                addStorage();
+                productInCart.push(product);
+                addStorage(productInCart);
             }
         });
 }
 
 // Async function to avoid repeating
-async function addStorage() {
-    localStorage.setItem('products', JSON.stringify(productInCart));
+async function addStorage(productInCart) {
+    localStorage.setItem('product', JSON.stringify(productInCart));
 }
