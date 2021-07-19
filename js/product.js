@@ -50,11 +50,9 @@ async function showColors(teddy) {
     }
 }
 
-
-
 // Adding selected product to cart on click
 async function addToCart(teddy) {
-    let productInCart = JSON.parse(localStorage.getItem('product'));
+    let productInCart = JSON.parse(localStorage.getItem('products'));
     
     document.getElementById('addCart').onclick =
         ('click',
@@ -79,7 +77,7 @@ async function addToCart(teddy) {
             if (productInCart) {
                 // If cart already contains an instance of the same product, the quantity is incremented
                 let item = productInCart.find(
-                    (item) => item.tagKey === teddy._id + color
+                    (thisItem) => thisItem.tagKey === teddy._id + color
                 );
                 if (item) {
                     item.quantity += 1;
@@ -101,5 +99,5 @@ async function addToCart(teddy) {
 
 // Async function to avoid repeating
 async function addStorage(productInCart) {
-    localStorage.setItem('product', JSON.stringify(productInCart));
+    localStorage.setItem('products', JSON.stringify(productInCart));
 }

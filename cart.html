@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="css/style.css" />
 </head>
 
-<body onload="displayCart()">
+<body>
     <header class="bg-secondary">
         <div class="container">
             <div class="row">
@@ -49,7 +49,7 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <button id="btnClearCart" class="btn btn-secondary">
+                    <button id="btnClearCart" class="btn btn-secondary" onclick="clearCart()">
                         Vider le panier
                     </button>
                 </div>
@@ -89,7 +89,7 @@
                     </div>
                 </div>
                 <br />
-                <button id="orderCart" class="btn btn-secondary" type="submit">Commander</button>
+                <button id="orderCart" class="btn btn-secondary" type="submit" onclick="order()">Commander</button>
             </form>
         </div>
         <br />

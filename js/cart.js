@@ -1,62 +1,80 @@
+// Calling functions on page load and avoiding events are overridden
+if (window.addEventListener) // W3C standard
+{
+  window.addEventListener('load', cartFunctions, false);
+} 
+else if (window.attachEvent) // Microsoft
+{
+  window.attachEvent('onload', cartFunctions);
+}
+
+function cartFunctions(){
+    displayCart();
+    totalCalc();
+    removeItem();
+}
+
 // Displaying the cart with its content
 function displayCart() {
     const elt = document.querySelector('#cart');   
 
     //if cart is empty, display a message and disable button orderCart
-    let product = JSON.parse(localStorage.getItem('product'));
+    let products = JSON.parse(localStorage.getItem('products'));
 
-    if (!localStorage.getItem('product')) {
+    if (!localStorage.getItem('products')) {
         elt.innerHTML = 'Votre panier est vide';
         document.querySelector('#orderCart').disabled = true;
     } else {
         // When cart contains items, creating elements to display it
-        for (let oneProduct of product) {  
+        for (let product of products) {  
             elt.innerHTML += `
             <div class="col-4 col-md-3 col-lg-2">
-                <a href="product.html?${oneProduct.productId}" class="text-decoration-none productLink">
-                    <img class="card-img-top img-fluid" src="${oneProduct.image}" alt="Oh le joli nounours !"/>
+                <a href="product.html?${product.productId}" class="text-decoration-none productLink">
+                    <img class="card-img-top img-fluid" src="${product.image}" alt="Oh le joli nounours !"/>
                     <div class="card-body teddyInfos text-dark">
-                        <h5 class="card-title name">${oneProduct.name}</h5>
-                        <p class="color">Couleur: ${oneProduct.option}</p>
-                        <p class="quantity">Quantité: ${oneProduct.quantity}</p> 
-                        <p class="price">Prix: ${oneProduct.price}.00 &euro;</p>                       
+                        <h5 class="card-title name">${product.name}</h5>
+                        <p class="color">Couleur: ${product.option}</p>
+                        <p class="quantity">Quantité: ${product.quantity}</p> 
+                        <p class="price">Prix: ${product.price}.00 &euro;</p>                       
                     </div>
                 </a>  
                  <button class="btn btn-warning btnRemove">Enlever cet article</button>                             
             </div>
-            `;                
-    }    
-    removeItem();
-    totalCalc();             
+            `;     
+        }           
+    }         
 } 
 
 function removeItem() {
-   // Removal of an item when clicking the btnRemove button
-    let btnRemove = document.querySelectorAll('.btnRemove');
-
-    for (let j = 0; j < btnRemove.length; j++) {
-        btnRemove[j].addEventListener('click', (e) => {
+    let btnsRemove = document.querySelectorAll('.btnRemove');
+    for (let i = 0; i < btnsRemove.length; i++) {
+        btnsRemove[i].addEventListener('click', (e) => {
             e.preventDefault();
-            let itemToRemove = `${product[j].tagKey}`;
+            let products = JSON.parse(localStorage.getItem('products'));
+            let itemToRemove = `${products[i].tagKey}`;
+            
             // Using filter to separate the item to remove from the rest of the array
-            product = product.filter((element) => element.tagKey !== itemToRemove);
-            localStorage.setItem('product', JSON.stringify(product));
+            products = products.filter((element) => element.tagKey !== itemToRemove);
+            localStorage.setItem('products', JSON.stringify(products));
             window.location.reload();
-        });
-    }
+        })
+    }    
 }
 
 function totalCalc() {
     let prices = [];
-
-    for(let oneProduct of product){
-        prices.push(oneProduct.price);
-    }
+    let products = JSON.parse(localStorage.getItem('products'));
+    if(products){
+         for(let product of products){
+            prices.push(product.price);
+        }
+    }   
     
-    // Total is calculated with a map.reduce of prices  
-    let total = prices
+    // Total is calculated with a map.reduce of prices 
+    let total = 0; 
+    total = prices
         .map((x) => parseInt(x, 10))
-        .reduce((total, num) => total + num, 0);
+        .reduce((acc, curr) => acc + curr, 0);
 
     // Then total is stored in localStorage and displayed
     localStorage.setItem('total', total);
@@ -64,19 +82,10 @@ function totalCalc() {
     totalPrice.innerHTML = `${total},00 &euro;`;
 }
 
-// Clearing the cart from everything in it when clicking btn clearCart
-const btnClear = document.querySelector('#btnClearCart');
-btnClear.addEventListener("click", 
 function clearCart() {
     localStorage.clear();
     window.location.reload();
-});
- 
-const btnOrder = document.querySelector('#orderCart');
-btnOrder.addEventListener("click", (e) => {
-    e.preventDefault();
-    order();
-})
+}
 
 function order() {
 
@@ -87,25 +96,12 @@ function order() {
     const city = document.getElementById('city').value;
     const email = document.getElementById('email').value;
     
-
-    //Verify cart is not empty
-    if (localStorage.getItem('total') == 0 ||
-
-    // Verify first Name
-    !firstName.match(`^[a-zA-Z'-]+$`) ||   
-
-    // Verify name
-    !lastName.match(`^[a-zA-Z'-]+$`) ||
-
-    // REGEX are not efficient with addresses and city names, so they're not used here
-    // Verify address
-    address === '' ||
-    
-    // Verify city
-    city === '' ||
-    
-    // Verify mail
-    !email.match(`^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$`)){
+    if (localStorage.getItem('total') == 0 ||                           // Verify cart is not empty    
+    !firstName.match(`^[a-zA-Z'-]+$`) ||                                // Verify first Name    
+    !lastName.match(`^[a-zA-Z'-]+$`) ||                                 // Verify name
+    address === '' ||                                                   // Verify address - REGEX are not efficient with addresses and city names, so they're not used here
+    city === '' ||                                                      // Verify city     
+    !email.match(`^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$`)){   // Verify mail
         document
         .getElementById('orderForm')
         .insertAdjacentHTML(
@@ -124,12 +120,11 @@ function order() {
         };
 
         let products = [];
-        for(let oneProduct of product){
+        for(let product of products){
             
-            products.push(oneProduct.productId);
+            products.push(product.productId);
         }
         
-
         // Creating the object which will be the body of the request
         let orderContent = {};
         orderContent = { contact, products };
@@ -142,14 +137,14 @@ function order() {
                 'Content-Type': 'application/json',
             },
         })
-            .then((response) => response.json())
-            .then((res) => localStorage.setItem('orderId', res.orderId))
-            .then(() => (window.location = 'confirm.html'))
-            .catch((error) => {
-                console.log('Erreur de connexion au serveur', error);
-            });
-        }
+        .then((res) => res.json())
+        .then((res) => localStorage.setItem('orderId', res.orderId))
+        .then(() => (window.location = 'confirm.html'))
+        .catch((error) => {
+            console.log('Erreur de connexion au serveur', error);
+        });
     }
 }
+
     
 
