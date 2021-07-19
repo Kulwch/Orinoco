@@ -8,7 +8,7 @@ async function getTeddy() {
     const id = teddyId;
 
     return fetch(`http://localhost:3000/api/teddies/${id}`)
-        .then((response) => response.json())
+        .then((res) => res.json())
         .then((teddy) => displayTeddy(teddy))
         .catch((error) => {
             console.log('Erreur de connexion au serveur', error);
@@ -27,7 +27,7 @@ async function displayTeddy(teddy) {
                         }"  alt="Oh le joli nounours !" />
                         <div class="card-body teddyInfos text-dark">
                             <h5 class="card-title name">${teddy.name}</h5>
-                            <button id="addCart" class="btn btn-secondary addBtn" >Ajouter au panier</button>
+                            <button id="addCart" class="btn btn-secondary">Ajouter au panier</button>
                             <select name="color" id="colorSelect">                                
                                 <label>couleur souhaitée</label>
                             </select>
@@ -37,7 +37,6 @@ async function displayTeddy(teddy) {
                     </div>
                 </div>
             `;
-  
     showColors(teddy);
     addToCart(teddy);
 }
@@ -51,7 +50,8 @@ async function showColors(teddy) {
 }
 
 // Adding selected product to cart on click
-async function addToCart(teddy) {
+async function addToCart(teddy) { 
+    
     let productInCart = JSON.parse(localStorage.getItem('products'));
     
     document.getElementById('addCart').onclick =

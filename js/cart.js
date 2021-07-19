@@ -50,9 +50,10 @@ function removeItem() {
     for (let i = 0; i < btnsRemove.length; i++) {
         btnsRemove[i].addEventListener('click', (e) => {
             e.preventDefault();
+            
             let products = JSON.parse(localStorage.getItem('products'));
             let itemToRemove = `${products[i].tagKey}`;
-            
+
             // Using filter to separate the item to remove from the rest of the array
             products = products.filter((element) => element.tagKey !== itemToRemove);
             localStorage.setItem('products', JSON.stringify(products));
