@@ -1,21 +1,10 @@
-// Calling functions on page load and avoiding events are overridden
-if (window.addEventListener) // W3C standard
-{
-  window.addEventListener('load', cartFunctions, false);
-} 
-else if (window.attachEvent) // Microsoft
-{
-  window.attachEvent('onload', cartFunctions);
-}
-
-function cartFunctions(){
-    displayCart();
-    totalCalc();
-    removeItem();
+function cartFunctions() {
+    displayCartItems();
+    displayCartTotalPrice();
 }
 
 // Displaying the cart with its content
-function displayCart() {
+function displayCartItems() {
     const elt = document.querySelector('#cart');   
 
     //if cart is empty, display a message and disable button orderCart
@@ -38,31 +27,25 @@ function displayCart() {
                         <p class="price">Prix: ${product.price}.00 &euro;</p>                       
                     </div>
                 </a>  
-                 <button class="btn btn-warning btnRemove">Enlever cet article</button>                             
+                 <button class="btn btn-warning btnRemove" value="${product.tagKey}" onclick="removeItem(this.value)">Enlever cet article</button>                             
             </div>
             `;     
         }           
     }         
 } 
 
-function removeItem() {
-    let btnsRemove = document.querySelectorAll('.btnRemove');
-    for (let i = 0; i < btnsRemove.length; i++) {
-        btnsRemove[i].addEventListener('click', (e) => {
-            e.preventDefault();
+function removeItem(val) {  
             
-            let products = JSON.parse(localStorage.getItem('products'));
-            let itemToRemove = `${products[i].tagKey}`;
+            let products = JSON.parse(localStorage.getItem('products'))
+            let itemToRemove = val;
 
             // Using filter to separate the item to remove from the rest of the array
             products = products.filter((element) => element.tagKey !== itemToRemove);
             localStorage.setItem('products', JSON.stringify(products));
-            window.location.reload();
-        })
-    }    
+            window.location.reload();    
 }
 
-function totalCalc() {
+function displayCartTotalPrice() {
     let prices = [];
     let products = JSON.parse(localStorage.getItem('products'));
     if(products){
@@ -120,26 +103,21 @@ function order() {
             email: email,
         };
 
-        let products = [];
-        for(let product of products){
-            
-            products.push(product.productId);
-        }
-        
+        const productIds = products.map(product => product.productIds);
+               
         // Creating the object which will be the body of the request
         let orderContent = {};
-        orderContent = { contact, products };
+        orderContent = { contact, products: productIds };
 
         // Making a POST request to the API then fetching the orderId, finally redirecting to confirm.html
-        return fetch('http://localhost:3000/api/teddies/order', {
+        fetch('http://localhost:3000/api/teddies/order', {
             method: 'POST',
             body: JSON.stringify(orderContent),
             headers: {
                 'Content-Type': 'application/json',
             },
         })
-        .then((res) => res.json())
-        .then((res) => localStorage.setItem('orderId', res.orderId))
+        .then((res) => localStorage.setItem('orderId', res.json().orderId))
         .then(() => (window.location = 'confirm.html'))
         .catch((error) => {
             console.log('Erreur de connexion au serveur', error);
