@@ -18,20 +18,21 @@ function displayOrder() {
 
     // Looping on products to create each product a card to be displayed
     const content = document.querySelector('.content');
-    for (let i = 0; i < products.length; i++) {
+    for (let product of products) {
         content.innerHTML += `
         <div class="card col col-md-4">
             <img
-                class="card-img-top"
-                src="${products[i].image}"
+                class="card-img-top py-1"
+                src="${product.image}"
                 alt="Oh le joli nounours !"
             />
             <div class="card-body teddyInfos text-dark">
-                <h5 class="card-title name">${products[i].name}</h5>
-                <p class="color">${products[i].option}</p>
-                <p class="price text-decoration-none">${products[i].price}.00 &euro;</p>
-                <p class="quantity">Quantité: ${products[i].quantity}</p>
+                <h5 class="card-title name">${product.name}</h5>
+                <p class="color">${product.option}</p>
+                <p class="price text-decoration-none">${product.price}.00 &euro;</p>
+                <p class="quantity">Quantité: ${product.quantity}</p>
             </div>
         </div>`;
     }
+    localStorage.clear(); // Data from localStorage is cleared, as it's not further needed.
 }

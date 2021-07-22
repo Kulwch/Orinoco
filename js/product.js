@@ -1,14 +1,14 @@
-// Getting the _id from the url parameters
-const getUrlId = window.location.search;
-
-// Removing the ? from id with .slice()
-const teddyId = getUrlId.slice(1);
-
 // Gathering the teddy from the API with function getTeddy()
 async function getTeddy() {
+    // Getting the _id from the url parameters
+    const getUrlId = window.location.search;
+
+    // Removing the ? from id with .slice()
+    const teddyId = getUrlId.slice(1);
     const id = teddyId;
+
     return fetch(`http://localhost:3000/api/teddies/${id}`)
-        .then((response) => response.json())
+        .then((res) => res.json())
         .then((teddy) => displayTeddy(teddy))
         .catch((error) => {
             console.log('Erreur de connexion au serveur', error);
@@ -18,7 +18,7 @@ async function getTeddy() {
 // Display the fetched Teddy's card
 async function displayTeddy(teddy) {
     const element = document.querySelector('.thisTeddy'); // Where the HTML will be injected
-
+    
     element.innerHTML += `
                 <div class="col mx-auto>
                     <div class="card">                      
@@ -27,7 +27,7 @@ async function displayTeddy(teddy) {
                         }"  alt="Oh le joli nounours !" />
                         <div class="card-body teddyInfos text-dark">
                             <h5 class="card-title name">${teddy.name}</h5>
-                            <button id="addCart" class="btn btn-secondary addBtn" >Ajouter au panier</button>
+                            <button id="addCart" class="btn btn-secondary" value='${JSON.stringify(teddy)}' onclick="addToCart(this.value)">Ajouter au panier</button>
                             <select name="color" id="colorSelect">                                
                                 <label>couleur souhaitée</label>
                             </select>
@@ -37,33 +37,23 @@ async function displayTeddy(teddy) {
                     </div>
                 </div>
             `;
-  
-    showColors(teddy);
-    addToCart(teddy);
-}
-
-// Display the available customization options (colors)
-async function showColors(teddy) {
-    for (i = 0; i < teddy.colors.length; i++) {
+    for (let color of teddy.colors) {
         let option = document.querySelector('#colorSelect');
-        option.innerHTML += `<option value="${teddy.colors[i]}">${teddy.colors[i]}</option>`;
-    }
+        option.innerHTML += `<option value="${color}">${color}</option>`;
+    }    
 }
 
-let productInCart = JSON.parse(localStorage.getItem('products'));
 
 // Adding selected product to cart on click
 async function addToCart(teddy) {
-    document.getElementById('addCart').onclick =
-        ('click',
-        (e) => {
-            e.preventDefault();
+    teddy = JSON.parse(teddy);
+    let productInCart = JSON.parse(localStorage.getItem('products'));
 
             const selection = document.querySelector('#colorSelect');
             const color = selection.value;
 
-            // Creating the object 'products'
-            let products = {
+            // Creating the object 'product'
+            let product = {
                 name: teddy.name,
                 productId: teddy._id,
                 option: color,
@@ -77,27 +67,26 @@ async function addToCart(teddy) {
             if (productInCart) {
                 // If cart already contains an instance of the same product, the quantity is incremented
                 let item = productInCart.find(
-                    (item) => item.tagKey === teddy._id + color
+                    (thisItem) => thisItem.tagKey === teddy._id + color
                 );
                 if (item) {
                     item.quantity += 1;
                     item.price += teddy.price / 100;
-                    addStorage();
+                    addStorage(productInCart);
                 } else {
                     // If cart contains something else, new product is added
-                    productInCart.push(products);
-                    addStorage();
+                    productInCart.push(product);
+                    addStorage(productInCart);
                 }
             } else {
                 // Else, if empty
                 productInCart = [];
-                productInCart.push(products);
-                addStorage();
+                productInCart.push(product);
+                addStorage(productInCart);
             }
-        });
-}
+        }
 
 // Async function to avoid repeating
-async function addStorage() {
+async function addStorage(productInCart) {
     localStorage.setItem('products', JSON.stringify(productInCart));
 }
