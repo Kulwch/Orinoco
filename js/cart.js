@@ -102,12 +102,14 @@ function order() {
             city: city,
             email: email,
         };
-
-        const productIds = products.map(product => product.productIds);
+        let products = JSON.parse(localStorage.getItem('products'));
+        const productIds = products.map(product => product.productId);
                
         // Creating the object which will be the body of the request
         let orderContent = {};
         orderContent = { contact, products: productIds };
+        console.log(productIds)
+        console.log(products)
 
         // Making a POST request to the API then fetching the orderId, finally redirecting to confirm.html
         fetch('http://localhost:3000/api/teddies/order', {
@@ -117,12 +119,14 @@ function order() {
                 'Content-Type': 'application/json',
             },
         })
-        .then((res) => localStorage.setItem('orderId', res.json().orderId))
+        .then((res) => res.json())
+        .then((res) => localStorage.setItem('orderId', res.orderId))
         .then(() => (window.location = 'confirm.html'))
         .catch((error) => {
             console.log('Erreur de connexion au serveur', error);
         });
     }
+    console.log(localStorage.getItem('orderId'))
 }
 
     
