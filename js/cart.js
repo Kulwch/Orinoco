@@ -108,8 +108,6 @@ function order() {
         // Creating the object which will be the body of the request
         let orderContent = {};
         orderContent = { contact, products: productIds };
-        console.log(productIds)
-        console.log(products)
 
         // Making a POST request to the API then fetching the orderId, finally redirecting to confirm.html
         fetch('http://localhost:3000/api/teddies/order', {
@@ -126,7 +124,6 @@ function order() {
             console.log('Erreur de connexion au serveur', error);
         });
     }
-    console.log(localStorage.getItem('orderId'))
 }
 
     
