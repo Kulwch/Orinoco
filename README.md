@@ -26,7 +26,7 @@ The local server is launched on port: **3000**
 
 ### 2° Testing the MVP
 
--   Either you go on the GitHub Page while node server is active: kulwch.github.io/orinoco/
+-   Either you go on the GitHub Page while node server is active: https://kulwch.github.io/Orinoco/
 
 -   Or you can also open index.html in your local browser
 
