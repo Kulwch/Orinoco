@@ -18,7 +18,7 @@ async function getTeddy() {
 // Display the fetched Teddy's card
 async function displayTeddy(teddy) {
     const element = document.querySelector('.thisTeddy'); // Where the HTML will be injected
-
+    
     element.innerHTML += `
                 <div class="col mx-auto>
                     <div class="card">                      
@@ -27,7 +27,7 @@ async function displayTeddy(teddy) {
                         }"  alt="Oh le joli nounours !" />
                         <div class="card-body teddyInfos text-dark">
                             <h5 class="card-title name">${teddy.name}</h5>
-                            <button id="addCart" class="btn btn-secondary">Ajouter au panier</button>
+                            <button id="addCart" class="btn btn-secondary" value='${JSON.stringify(teddy)}' onclick="addToCart(this.value)">Ajouter au panier</button>
                             <select name="color" id="colorSelect">                                
                                 <label>couleur souhaitée</label>
                             </select>
@@ -37,27 +37,17 @@ async function displayTeddy(teddy) {
                     </div>
                 </div>
             `;
-    showColors(teddy);
-    addToCart(teddy);
-}
-
-// Display the available customization options (colors)
-async function showColors(teddy) {
     for (let color of teddy.colors) {
         let option = document.querySelector('#colorSelect');
         option.innerHTML += `<option value="${color}">${color}</option>`;
-    }
+    }    
 }
 
+
 // Adding selected product to cart on click
-async function addToCart(teddy) { 
-    
+async function addToCart(teddy) {
+    teddy = JSON.parse(teddy);
     let productInCart = JSON.parse(localStorage.getItem('products'));
-    
-    document.getElementById('addCart').onclick =
-        ('click',
-        (e) => {
-            e.preventDefault();
 
             const selection = document.querySelector('#colorSelect');
             const color = selection.value;
@@ -94,8 +84,7 @@ async function addToCart(teddy) {
                 productInCart.push(product);
                 addStorage(productInCart);
             }
-        });
-}
+        }
 
 // Async function to avoid repeating
 async function addStorage(productInCart) {
